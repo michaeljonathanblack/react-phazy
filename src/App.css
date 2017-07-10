@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.fazy {
+  margin: 0;
+}
+
+.fazy__placeholder {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.fazy__placeholder-fill {
+  background: #000;
+}
+
+.fazy__preview,
+.fazy__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  visibility: hidden;
+  opacity: 0;
+  backface-visibility: hidden;
+}
+
+.fazy__preview.is-loaded,
+.fazy__image.is-loaded {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s,opacity .4s 0s;
+}
