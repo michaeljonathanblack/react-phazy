@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FazyImage from './FazyImage';
+import Phazy from './Phazy';
 
 class LazyPoster extends Component {
   static propTypes = {
@@ -61,7 +61,7 @@ class LazyPoster extends Component {
     const preview = this.getPreviewUrl();
     const { alt, width, height, id, quality, baseUrl, ...rest } = this.props;
     return (
-      <FazyImage
+      <Phazy
         source={source}
         preview={preview}
         alt={alt}

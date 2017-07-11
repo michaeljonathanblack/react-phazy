@@ -5,7 +5,7 @@ import LazyLoad from 'react-lazy-load';
 import classNames from 'classnames';
 import BlurImage from '../../node_modules/react-blur/dist/blur';
 
-class FazyImage extends React.Component {
+class Phazy extends React.Component {
   static propTypes = {
     source: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired,
@@ -39,17 +39,17 @@ class FazyImage extends React.Component {
 
     const placeholderPadding = height / width * 100;
 
-    const previewClass = classNames('fazy__preview', {
+    const previewClass = classNames('phazy__preview', {
       'is-loaded': this.state.isPreviewLoaded,
     });
-    const imageClass = classNames('fazy__image', {
+    const imageClass = classNames('phazy__image', {
       'is-loaded': this.state.isImageLoaded,
     });
 
     return (
-      <figure className="fazy" {...rest}>
+      <figure className="phazy" {...rest}>
         <div
-          className="fazy__placeholder"
+          className="phazy__placeholder"
           style={{
             width: `${width}px`,
             height: `${height}px`,
@@ -58,7 +58,7 @@ class FazyImage extends React.Component {
           }}
         >
           <div
-            className="fazy__background"
+            className="phazy__background"
             style={{ paddingBottom: `${placeholderPadding}%` }}
           />
           <LazyLoad height={height} offset={height} debounce={false}>
@@ -84,4 +84,4 @@ class FazyImage extends React.Component {
   }
 }
 
-export default FazyImage;
+export default Phazy;

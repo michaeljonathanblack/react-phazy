@@ -19,23 +19,23 @@ li {
   padding: 10px;
 }
 
-.fazy {
+.phazy {
   margin: 0;
 }
 
-.fazy__placeholder {
+.phazy__placeholder {
   position: relative;
   width: 100%;
   margin: 0 auto;
   display: block;
 }
 
-.fazy__background {
+.phazy__background {
   background: #f6f6f6;
 }
 
-.fazy__preview,
-.fazy__image {
+.phazy__preview,
+.phazy__image {
   position: absolute;
   top: 0;
   left: 0;
@@ -47,8 +47,8 @@ li {
   backface-visibility: hidden;
 }
 
-.fazy__preview.is-loaded,
-.fazy__image.is-loaded {
+.phazy__preview.is-loaded,
+.phazy__image.is-loaded {
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0s,opacity .4s 0s;
