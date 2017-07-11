@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LazyLoad from 'react-lazy-load';
 import classNames from 'classnames';
-import BlurImage from '../../node_modules/react-blur/dist/blur';
+import BlurImage from 'react-blur';
 
 class Phazy extends React.Component {
   static propTypes = {
