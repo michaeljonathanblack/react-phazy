@@ -1,9 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
 
 ul {
   list-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+li {
+  padding: 10px;
 }
 
 .fazy {
@@ -17,8 +30,8 @@ ul {
   display: block;
 }
 
-.fazy__placeholder-fill {
-  background: #000;
+.fazy__background {
+  background: #f6f6f6;
 }
 
 .fazy__preview,

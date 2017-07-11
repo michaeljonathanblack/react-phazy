@@ -1,53 +1,29 @@
 import React from 'react';
-import LazyLoad from 'react-lazyload';
+import PropTypes from 'prop-types';
+
+import LazyLoad from 'react-lazy-load';
 import classNames from 'classnames';
-import BlurImage from 'react-blur';
+import BlurImage from '../../node_modules/react-blur/dist/blur';
 
 class FazyImage extends React.Component {
-  constructor(props) {
+  static propTypes = {
+    source: PropTypes.string.isRequired,
+    preview: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  };
+
+  constructor() {
     super();
-    const id = 'MMV04EF52FB42EEDD801AE43A8BEB187BDE5';
-    const width = 378 * 2;
-    const height = 566 * 2;
-    const quality = 100;
-    const imageUrl = FazyImage.getImageUrl(id, width, height, quality);
-    const previewUrl = FazyImage.getPreviewUrl(id, width, height);
-    const alt = props.alt || 'A Fazy Image!';
 
     this.state = {
-      someKey: 'someValue',
-      alt,
-      imageUrl,
-      previewUrl,
-      width,
-      height
+      isImageLoaded: false,
+      isPreviewLoaded: false,
     };
-  }
 
-  static getImageUrl(id, width, height, quality) {
-    const randomNumber = FazyImage.getRandomInt(0, 999999999);
-    console.log('randomNumber: ' + JSON.stringify(randomNumber, null, '\t'));
-    return `https://img06.mgo-images.com/image/thumbnail` +
-      `?id=${id}` +
-      `&ql=${quality}` + 
-      `&sizes=${width}x${height}` +
-      `&cacheBust=${randomNumber}`;
-  }
-
-  static getPreviewUrl(id, width, height) {
-    const quality = 1;
-    width = width * 0.05;
-    height = height * 0.05;
-    return `https://img06.mgo-images.com/image/thumbnail` +
-      `?id=${id}` +
-      `&ql=${quality}` + 
-      `&sizes=${width}x${height}`;
-  }
-
-  static getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    this.onLoadPreview = this.onLoadPreview.bind(this);
+    this.onLoadImage = this.onLoadImage.bind(this);
   }
 
   onLoadPreview() {
@@ -59,43 +35,52 @@ class FazyImage extends React.Component {
   }
 
   render() {
-    const width = this.state.width / 2;
-    const height = this.state.height / 2;
-    const widthPx = `${width}px`;
-    const heightPx = `${height}px`;
-    const placeholderPadding = height / width * 100;
-    const placeholderPercent = `${placeholderPadding}%`;
+    const { source, preview, alt, width, height, ...rest } = this.props;
 
-    const previewClass = classNames('fazy__preview', { 'is-loaded': this.state.isPreviewLoaded });;
-    const imageClass = classNames('fazy__image', { 'is-loaded': this.state.isImageLoaded });;
+    const placeholderPadding = height / width * 100;
+
+    const previewClass = classNames('fazy__preview', {
+      'is-loaded': this.state.isPreviewLoaded,
+    });
+    const imageClass = classNames('fazy__image', {
+      'is-loaded': this.state.isImageLoaded,
+    });
 
     return (
-      <figure className="fazy">
-        <div className="fazy__placeholder" style={{ maxWidth: widthPx, maxHeight: heightPx }}>
-          <div className="fazy__placeholder-fill" style={{ paddingBottom: placeholderPercent }} />
-          <LazyLoad height={height} offset={height} once>
+      <figure className="fazy" {...rest}>
+        <div
+          className="fazy__placeholder"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            maxWidth: `${width}px`,
+            maxHeight: `${height}px`,
+          }}
+        >
+          <div
+            className="fazy__background"
+            style={{ paddingBottom: `${placeholderPadding}%` }}
+          />
+          <LazyLoad height={height} offset={height} debounce={false}>
             <div>
               <BlurImage
                 className={previewClass}
-                img={this.state.previewUrl}
-                onLoadFunction={this.onLoadPreview.bind(this)}
-                blurRadius={50}
+                img={preview}
+                onLoadFunction={this.onLoadPreview}
+                blurRadius={20}
               />
-              <img
-                className={imageClass}
-                src={this.state.imageUrl}
-                alt={this.state.alt}
-                onLoad={this.onLoadImage.bind(this)}
-              />
+              {this.state.isPreviewLoaded &&
+                <img
+                  className={imageClass}
+                  src={source}
+                  alt={alt}
+                  onLoad={this.onLoadImage}
+                />}
             </div>
           </LazyLoad>
         </div>
       </figure>
     );
-  }
-
-  componentDidMount() {
-    this.setState({ someKey: 'otherValue' });
   }
 }
 

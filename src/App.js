@@ -1,52 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import FazyImage from './components/FazyImage';
+import LazyPoster from './components/LazyPoster';
+import { items } from './components/default-list.json';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <ul>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage alt="Test!" />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-          <li>
-            <p>Ghost in the Shell</p>
-            <FazyImage />
-          </li>
-        </ul>
-      </div>
-    );
-  }
-}
+const App = () =>
+  <div className="App">
+    <ul>
+      {items.map(item =>
+        <li key={item.id}>
+          <LazyPoster id={item.id} alt={item.title} />
+        </li>
+      )}
+    </ul>
+  </div>;
 
 export default App;

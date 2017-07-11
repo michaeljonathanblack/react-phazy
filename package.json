@@ -4,16 +4,29 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "react-blur": "^0.5.2",
+    "react-blur": "../react-blur",
     "react-dom": "^15.6.1",
-    "react-lazyload": "^2.2.7",
+    "react-lazy-load": "^3.0.12",
     "react-scripts": "1.0.10"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-react": "^7.1.0",
+    "prettier": "^1.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "restart": "rm -rf ./node_modules/react-blur/ && npm i && yarn start"
   }
 }
