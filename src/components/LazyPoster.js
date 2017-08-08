@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import url from 'url';
+import { random } from 'lodash';
 import Phazy from './Phazy';
 
 class LazyPoster extends Component {
@@ -16,44 +18,55 @@ class LazyPoster extends Component {
     width: 378 / 2,
     height: 566 / 2,
     quality: 70,
-    baseUrl: `https://img0${LazyPoster.getDomainIndex()}.mgo-images.com/image/thumbnail`,
+    baseUrl: '',
   };
 
-  static getDomainIndex() {
-    return LazyPoster.getRandomInt(0, 10);
+  constructor(props) {
+    super(props);
+    const defaultBaseUrl = `img0${random(1, 9)}.mgo-images.com/image/thumbnail`;
+    this.state = {
+      baseUrl: this.props.baseUrl || defaultBaseUrl,
+    };
   }
-
-  static getRandomInt(min, max) {
-    const minCeiling = Math.ceil(min);
-    const maxFloor = Math.floor(max);
-    // The maximum is exclusive and the minimum is inclusive
-    return Math.floor(Math.random() * (maxFloor - minCeiling)) + minCeiling;
-  }
-
-  static domainIndex = LazyPoster.getRandomInt(0, 10);
 
   getImageUrl() {
-    const { id, quality, width, height, baseUrl } = this.props;
-    const cacheBuster = LazyPoster.getRandomInt(0, 999999999);
-    return (
-      `${baseUrl}?id=${id}` +
-      `&ql=${quality}` +
-      `&sizes=${width * 2}x${height * 2}` +
-      `&cacheBuster=${cacheBuster}`
-    );
+    const { id, quality, width, height } = this.props;
+
+    const largeWidth = width * 2;
+    const largeHeight = height * 2;
+    const sizes = `${largeWidth}x${largeHeight}`;
+    const cacheBuster = random(999999999);
+
+    return url.format({
+      host: this.state.baseUrl,
+      query: {
+        id,
+        ql: quality,
+        sizes,
+        cacheBuster,
+      },
+    });
   }
 
   getPreviewUrl() {
-    const { id, width, height, baseUrl } = this.props;
+    const { id, width, height } = this.props;
+
     const quality = 20;
     const previewSizeRatio = 1 / 10;
-    const smallWidth = width * previewSizeRatio;
-    const smallHeight = height * previewSizeRatio;
-    return (
-      `${baseUrl}?id=${id}` +
-      `&ql=${quality}` +
-      `&sizes=${smallWidth}x${smallHeight}`
-    );
+    const smallWidth = Math.round(width * previewSizeRatio);
+    const smallHeight = Math.round(height * previewSizeRatio);
+    const sizes = `${smallWidth}x${smallHeight}`;
+    const cacheBuster = random(999999999);
+
+    return url.format({
+      host: this.state.baseUrl,
+      query: {
+        id,
+        ql: quality,
+        sizes,
+        cacheBuster,
+      },
+    });
   }
 
   render() {

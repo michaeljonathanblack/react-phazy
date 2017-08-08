@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import LazyPoster from './components/LazyPoster';
-import { items } from './components/default-list.json';
+import { items } from './components/exampleData.json';
 
 const App = () =>
   <div className="App">
