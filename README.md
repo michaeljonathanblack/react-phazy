@@ -33,6 +33,8 @@ Provide a high resolution `source` image, its width and height, and a very small
 />
 ```
 
+Required styles are available in `App.css` under `.phazy`
+
 ## Demo
 
 ```bash
