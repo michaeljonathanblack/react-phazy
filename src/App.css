@@ -86,3 +86,11 @@ li {
   background: black;
   width: 100%;
 }
+
+.item-container {
+  height: 283px;
+  width: 189px;
+  flex-basis: 189px;
+  max-width: 189px;
+  min-width: 189px;
+}

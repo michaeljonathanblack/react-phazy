@@ -9,15 +9,15 @@ const App = () =>
     <h2>Row Scroll</h2>
     <ul className="row-scroll">
       {items.map(item =>
-        <li key={item.id}>
+        <li key={item.id} className="item-container">
           <LazyPoster id={item.id} alt={item.title} />
         </li>
       )}
     </ul>
     <h2>Row Flex</h2>
     <ul className="row-flex">
-      {[1, 2, 3, 4, 5].map(item =>
-        <li key={item}>
+      {items.slice(0, 5).map(item =>
+        <li key={item.id}>
           <div className="placeholder" />
         </li>
       )}

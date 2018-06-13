@@ -17,6 +17,8 @@
     "prettier/prettier": [1, { "trailingComma": "es5", "singleQuote": true }],
     "react/jsx-filename-extension": 0,
     "react/no-unused-prop-types": [1, { "skipShapeProps": true }],
-    "react/prefer-stateless-function": [1, { "ignorePureComponents": true }]
+    "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+    "radix": 0,
+    "react/no-did-mount-set-state": 1,
   }
 }

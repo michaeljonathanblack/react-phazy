@@ -15,8 +15,8 @@ class LazyPoster extends Component {
   };
 
   static defaultProps = {
-    width: 378 / 2,
-    height: 566 / 2,
+    width: null,
+    height: null,
     quality: 70,
     baseUrl: '',
   };
@@ -26,11 +26,45 @@ class LazyPoster extends Component {
     const defaultBaseUrl = `img0${random(1, 9)}.mgo-images.com/image/thumbnail`;
     this.state = {
       baseUrl: this.props.baseUrl || defaultBaseUrl,
+      width: props.width,
+      height: props.height,
+    };
+    this.container = null;
+    this.setContainerRef = element => {
+      this.container = element;
     };
   }
 
+  componentDidMount() {
+    if (this.state.width && this.state.height) {
+      return;
+    }
+
+    const element = this.container.parentElement;
+    const cs = getComputedStyle(element);
+
+    const paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+
+    const borderX =
+      parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+    const borderY =
+      parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+    // Element width and height minus padding and border
+    const elementWidth = parseInt(element.offsetWidth - paddingX - borderX);
+    const elementHeight = parseInt(element.offsetHeight - paddingY - borderY);
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      width: elementWidth,
+      height: elementHeight,
+    });
+  }
+
   getImageUrl() {
-    const { id, quality, width, height } = this.props;
+    const { id, quality } = this.props;
+    const { width, height } = this.state;
 
     const largeWidth = width * 2;
     const largeHeight = height * 2;
@@ -49,7 +83,8 @@ class LazyPoster extends Component {
   }
 
   getPreviewUrl() {
-    const { id, width, height } = this.props;
+    const { id } = this.props;
+    const { width, height } = this.state;
 
     const quality = 20;
     const previewSizeRatio = 1 / 10;
@@ -70,18 +105,24 @@ class LazyPoster extends Component {
   }
 
   render() {
+    const { alt, width, height, id, quality, baseUrl, ...rest } = this.props;
+    const { width: widthComputed, height: heightComputed } = this.state;
+
     const source = this.getImageUrl();
     const preview = this.getPreviewUrl();
-    const { alt, width, height, id, quality, baseUrl, ...rest } = this.props;
+    const hasDimensions = widthComputed && heightComputed;
     return (
-      <Phazy
-        source={source}
-        preview={preview}
-        alt={alt}
-        width={width}
-        height={height}
-        {...rest}
-      />
+      <div ref={this.setContainerRef}>
+        {hasDimensions &&
+          <Phazy
+            source={source}
+            preview={preview}
+            alt={alt}
+            width={widthComputed}
+            height={heightComputed}
+            {...rest}
+          />}
+      </div>
     );
   }
 }
