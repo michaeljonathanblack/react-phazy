@@ -19,13 +19,14 @@ const App = () =>
       {items.slice(0, 5).map(item =>
         <li key={item.id}>
           <div className="placeholder" />
+          <LazyPoster id={item.id} alt={item.title} />
         </li>
       )}
     </ul>
     <h2>Grid Flex</h2>
     <ul className="grid">
       {items.map(item =>
-        <li key={item.id}>
+        <li key={item.id} className="item-container">
           <LazyPoster id={item.id} alt={item.title} />
         </li>
       )}

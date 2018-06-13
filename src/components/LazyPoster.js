@@ -36,30 +36,17 @@ class LazyPoster extends Component {
   }
 
   componentDidMount() {
-    if (this.state.width && this.state.height) {
+    if (this.props.width && this.props.height) {
       return;
     }
 
-    const element = this.container.parentElement;
-    const cs = getComputedStyle(element);
+    this.updateDimensions();
 
-    const paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-    const paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+  }
 
-    const borderX =
-      parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
-    const borderY =
-      parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
-
-    // Element width and height minus padding and border
-    const elementWidth = parseInt(element.offsetWidth - paddingX - borderX);
-    const elementHeight = parseInt(element.offsetHeight - paddingY - borderY);
-
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      width: elementWidth,
-      height: elementHeight,
-    });
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this));
   }
 
   getImageUrl() {
@@ -104,6 +91,29 @@ class LazyPoster extends Component {
     });
   }
 
+  updateDimensions() {
+    const element = this.container.parentElement;
+    const cs = getComputedStyle(element);
+
+    const paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const paddingY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+
+    const borderX =
+      parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+    const borderY =
+      parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+    // Element width and height minus padding and border
+    const elementWidth = parseInt(element.offsetWidth - paddingX - borderX);
+    const elementHeight = parseInt(element.offsetHeight - paddingY - borderY);
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      width: elementWidth,
+      height: elementHeight,
+    });
+  }
+
   render() {
     const { alt, width, height, id, quality, baseUrl, ...rest } = this.props;
     const { width: widthComputed, height: heightComputed } = this.state;
@@ -112,7 +122,7 @@ class LazyPoster extends Component {
     const preview = this.getPreviewUrl();
     const hasDimensions = widthComputed && heightComputed;
     return (
-      <div ref={this.setContainerRef}>
+      <div className="lazy-poster" ref={this.setContainerRef}>
         {hasDimensions &&
           <Phazy
             source={source}

@@ -79,6 +79,7 @@ li {
 .row-flex li {
   width: calc((1 / 5) * 100%);
   flex-basis: calc((1 / 5) * 100%);
+  position: relative;
 }
 
 .row-flex .placeholder {
@@ -93,4 +94,10 @@ li {
   flex-basis: 189px;
   max-width: 189px;
   min-width: 189px;
+}
+
+.lazy-poster {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
